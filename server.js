@@ -39,6 +39,17 @@ app.get("/api/timestamp/:date_string?",function(req, res){
   res.json({"unix": date.getTime(), "utc" : date.toUTCString() });
 });
 
+app.use(function (req, res, next) {
+  res.status(404);
+  res.send('Not found');
+});
+
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500);
+  res.send('Server Error');
+});
+
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
